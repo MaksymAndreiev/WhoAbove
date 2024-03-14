@@ -19,7 +19,10 @@ def clean_name(name: str) -> str:
     if '(' in name:
         return name.split('(')[1].split(')')[0]
     elif '«' in name:
-        return ' '.join(name.split(' ')[::2])
+        name = name.split('«')
+        part1 = name[0]
+        part2 = name[1].split('»')[1]
+        return (part1 + ' ' + part2).strip()
     else:
         return name
 
