@@ -17,14 +17,14 @@ def clean_name(name: str) -> str:
     :return:
     """
     if '(' in name:
-        return name.split('(')[1].split(')')[0].strip()
+        return name.split('(')[1].split(')')[0].strip().replace('  ', ' ')
     elif '«' in name:
         name = name.split('«')
         part1 = name[0]
         part2 = name[1].split('»')[1]
         return (part1 + ' ' + part2).strip().replace('  ', ' ')
     else:
-        return name.strip()
+        return name.strip().replace('  ', ' ')
 
 
 URL = "http://gameshows.ru/wiki/Хто_зверху%3F_(Список_выпусков)"
