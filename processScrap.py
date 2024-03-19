@@ -1,3 +1,5 @@
+import sys
+
 from main import db, app
 import csv
 import datetime
@@ -14,6 +16,10 @@ class Participant(db.Model):
 
 class Episode(db.Model):
     __table__ = db.Model.metadata.tables['main.Episodes']
+
+
+class FinalResults(db.Model):
+    __table__ = db.Model.metadata.tables['main.FinalResults']
 
 
 def add_participant(team, sex_label):
@@ -60,27 +66,32 @@ def add_participant(team, sex_label):
     return ids
 
 
-with open('scrapped_data.csv', newline='\n') as csvfile:
-    episode_reader = csv.reader(csvfile)
-    next(episode_reader)
-    for row in episode_reader:
-        season = row[0]
-        episode = row[1]
-        date = datetime.datetime.strptime(row[2], '%Y-%m-%d')
-        men = row[3].split(';')
-        women = row[6].split(';')
-        men_id = add_participant(men, 1)
-        women_id = add_participant(women, 0)
-        if len(men_id) == 4 and len(women_id) == 4:
-            episode_data = Episode(season=season, date=date, male1=men_id[0], female1=women_id[0],
-                                   female2=women_id[1], female3=women_id[2], female_capitan=women_id[3],
-                                   male2=men_id[1], male3=men_id[2], male_capitan=men_id[3])
-        else:
-            for i in range(len(men_id)):
-                man = Participant.query.filter_by(ID=men_id[i]).first()
-                print(man.name)
-            for i in range(len(women_id)):
-                woman = Participant.query.filter_by(ID=women_id[i]).first()
-                print(woman.name)
-        db.session.add(episode_data)
-        db.session.commit()
+if __name__ == '__main__':
+    with open('scrapped_data.csv', newline='\n') as csvfile:
+        episode_reader = csv.reader(csvfile)
+        next(episode_reader)
+        for row in episode_reader:
+            season = row[0]
+            episode = row[1]
+            date = datetime.datetime.strptime(row[2], '%Y-%m-%d')
+            men = row[3].split(';')
+            m_money_before = int(row[4])
+            m_money_after = int(row[5])
+            women = row[6].split(';')
+            w_money_before = int(row[7])
+            w_money_after = int(row[8])
+            if sys.argv[1] == '-episode':
+                men_id = add_participant(men, 1)
+                women_id = add_participant(women, 0)
+                episode_data = Episode(season=season, date=date, male1=men_id[0], female1=women_id[0],
+                                       female2=women_id[1], female3=women_id[2], female_capitan=women_id[3],
+                                       male2=men_id[1], male3=men_id[2], male_capitan=men_id[3])
+                db.session.add(episode_data)
+                db.session.commit()
+            elif sys.argv[1] == '-winrate':
+                episode = Episode.query.filter_by(date=date).first()
+                winner = 1 if ((m_money_after - m_money_before) >= 0 >= (w_money_after - w_money_before)) else 0 if (
+                        (w_money_after - w_money_before) >= 0 >= (m_money_after - m_money_before)) else None
+                winrate = FinalResults(final=1, episode=episode.ID, sex_team=winner)
+                db.session.add(winrate)
+                db.session.commit()
