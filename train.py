@@ -18,7 +18,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # Connect to the SQLite database
-db_path = 'sqlite:///C:/Users/maxog/DataGripProjects/WhoAbove/show_data'
+db_path = 'sqlite:///data/show_data'
 engine = create_engine(db_path)
 
 # Query the database
