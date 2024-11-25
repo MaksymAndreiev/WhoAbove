@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Who Above?</title>
+</head>
+<body>
+    <form>
+        <label for="participants">Choose a participant:</label>
+        <select id="participants" name="participants">
+            {% for participant in participants %}
+                <option value="{{ participant.id }}">{{ participant.name }}</option>
+            {% endfor %}
+        </select>
+    </form>
+</body>
+</html>
