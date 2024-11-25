@@ -98,7 +98,7 @@ def predict():
     df = pd.DataFrame(data, index=[0])
 
     # Encode the name columns
-    with open('label_encoder.pkl', 'rb') as f:
+    with open('saves/label_encoder.pkl', 'rb') as f:
         label_encoder = pickle.load(f)
     label_encoder_classes = {}
     name_columns = re.findall(r'p\d_name|mc_name|fc_name', ' '.join(df.columns))
@@ -108,11 +108,11 @@ def predict():
         df[col] = label_encoder.transform(df[col])
         label_encoder_classes[col] = label_encoder.classes_
 
-    with open('scaler.pkl', 'rb') as f:
+    with open('saves/scaler.pkl', 'rb') as f:
         scaler = pickle.load(f)
 
     #Uploading the model
-    model = load_model('model.h5')
+    model = load_model('saves/model.h5')
     test_data = df.values.astype(np.float32).reshape(1, -1)
     test_data = scaler.transform(test_data)
     prediction = model.predict(test_data)
