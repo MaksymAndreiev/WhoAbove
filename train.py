@@ -1,10 +1,8 @@
+import pickle
 import re
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
 from keras.layers import Dropout
 from keras.regularizers import l2
-from keras.callbacks import EarlyStopping
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.utils.class_weight import compute_class_weight
@@ -14,8 +12,9 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sqlalchemy import create_engine
 from imblearn.over_sampling import SMOTE
 
-#disable warnings
+# disable warnings
 import warnings
+
 warnings.filterwarnings('ignore')
 
 # Connect to the SQLite database
@@ -147,3 +146,10 @@ models = [model1, model2, clf]
 accuracies = [model.evaluate(X_test, y_test)[1] for model in models[0:2]]
 accuracies.append(clf.score(X_test, y_test))
 model = models[accuracies.index(max(accuracies))]
+
+# Save the model, label encoder, and scaler
+model.save('model.h5')
+with open('label_encoder.pkl', 'wb') as f:
+    pickle.dump(label_encoder, f)
+with open('scaler.pkl', 'wb') as f:
+    pickle.dump(scaler, f)
