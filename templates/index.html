@@ -5,7 +5,7 @@
     <title>Who Above?</title>
 </head>
 <body>
-    <form action="/submit" method="POST">
+    <form id="predictionForm" action="/submit" method="POST">
         <label for="male1">Male 1:</label>
         <select id="male1" name="male_1">
             {% for participant in participants %}
@@ -72,5 +72,24 @@
         </select>
         <input type="submit" value="Submit">
     </form>
+    <div id="result"></div>
+
+    <script>
+    document.getElementById('predictionForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const formData = new FormData(this);
+
+        fetch('/submit', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('result').innerHTML = data; // Update the result div with the response
+        })
+        .catch(error => console.error('Error:', error));
+    });
+    </script>
 </body>
 </html>
