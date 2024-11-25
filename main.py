@@ -11,10 +11,12 @@ from flask_sqlalchemy import SQLAlchemy
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sqlalchemy import text
 from tensorflow.keras.models import load_model
+import logging
 
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__, template_folder='templates')
-db_path = os.path.join(r'C:/Users/maxog/DataGripProjects/WhoAbove/show_data')
-print(db_path)
+db_path = os.path.join(os.path.dirname(__file__), 'data', 'show_data')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 
 db = SQLAlchemy(app)
@@ -23,8 +25,6 @@ with app.app_context():
     db.Model.metadata.reflect(bind=db.engine, schema='main')
     table_names = db.Model.metadata.tables.keys()
 
-    print(table_names)
-
 app.app_context().push()
 
 
@@ -32,15 +32,13 @@ class Participant(db.Model):
     __table__ = db.Model.metadata.tables['main.Participants']
 
 
-class Episode(db.Model):
-    __table__ = db.Model.metadata.tables['main.Episodes']
-
-
 @app.route('/')
 def index():
+    logging.debug("Index route accessed")
     # Fetch raw data
     result = db.session.execute(text("SELECT * FROM Participants"))
     participants = result.fetchall()
+    logging.debug(f"Fetched participants: {participants}")
     return render_template('index.html', participants=participants)
 
 
