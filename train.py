@@ -148,7 +148,7 @@ accuracies.append(clf.score(X_test, y_test))
 model = models[accuracies.index(max(accuracies))]
 
 # Save the model, label encoder, and scaler
-model.save('model.h5')
+model.save('saves/model.h5')
 with open('saves/label_encoder.pkl', 'wb') as f:
     pickle.dump(label_encoder, f)
 with open('saves/scaler.pkl', 'wb') as f:
