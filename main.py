@@ -11,10 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sqlalchemy import text
 from tensorflow.keras.models import load_model
-import logging
 
-# Set up logging
-logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__, template_folder='templates')
 db_path = os.path.join(os.path.dirname(__file__), 'data', 'show_data')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
@@ -34,11 +31,9 @@ class Participant(db.Model):
 
 @app.route('/')
 def index():
-    logging.debug("Index route accessed")
     # Fetch raw data
     result = db.session.execute(text("SELECT * FROM Participants"))
     participants = result.fetchall()
-    logging.debug(f"Fetched participants: {participants}")
     return render_template('index.html', participants=participants)
 
 
@@ -109,7 +104,7 @@ def predict():
     with open('saves/scaler.pkl', 'rb') as f:
         scaler = pickle.load(f)
 
-    #Uploading the model
+    # Uploading the model
     model = load_model('saves/model.h5')
     test_data = df.values.astype(np.float32).reshape(1, -1)
     test_data = scaler.transform(test_data)
