@@ -3,73 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <title>Who Above?</title>
+    <link rel="stylesheet" href="/static/index.css">
 </head>
 <body>
-    <form id="predictionForm" action="/submit" method="POST">
-        <label for="male1">Male 1:</label>
-        <select id="male1" name="male_1">
-            {% for participant in participants %}
-                {% if participant.sex == 1 %}
-                    <option value="{{ participant.ID }}">{{ participant.name }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
-        <label for="male2">Male 2:</label>
-        <select id="male2" name="male_2">
-            {% for participant in participants %}
-                {% if participant.sex == 1 %}
-                    <option value="{{ participant.ID }}">{{ participant.name }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
-        <label for="male3">Male 3:</label>
-        <select id="male3" name="male_3">
-            {% for participant in participants %}
-                {% if participant.sex == 1 %}
-                    <option value="{{ participant.ID }}">{{ participant.name }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
-        <label for="female1">Female 1:</label>
-        <select id="female1" name="female_1">
-            {% for participant in participants %}
-                {% if participant.sex == 0 %}
-                    <option value="{{ participant.ID }}">{{ participant.name }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
-        <label for="female2">Female 2:</label>
-        <select id="female2" name="female_2">
-            {% for participant in participants %}
-                {% if participant.sex == 0 %}
-                    <option value="{{ participant.ID }}">{{ participant.name }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
-        <label for="female3">Female 3:</label>
-        <select id="female3" name="female_3">
-            {% for participant in participants %}
-                {% if participant.sex == 0 %}
-                    <option value="{{ participant.ID }}">{{ participant.name }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
-        <label for="mc">Male capitan:</label>
-        <select id="mc" name="male_capitan">
-            {% for participant in participants %}
-                {% if participant.sex == 1 and participant.capitan == 1 %}
-                    <option value="{{ participant.ID }}">{{ participant.name }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
-        <label for="fc">Female capitan:</label>
-        <select id="fc" name="female_capitan">
-            {% for participant in participants %}
-                {% if participant.sex == 0 and participant.capitan == 1 %}
-                    <option value="{{ participant.ID }}">{{ participant.name }}</option>
-                {% endif %}
-            {% endfor %}
-        </select>
+    <form id="predictionForm" action="/submit" method="POST" class="dropdown">
+        <fieldset>
+            <legend>Male Participants</legend>
+            <label for="male1">Male 1:</label>
+            <select id="male1" name="male_1">
+                {% for participant in participants %}
+                    {% if participant.sex == 1 %}
+                        <option value="{{ participant.ID }}">{{ participant.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <label for="male2">Male 2:</label>
+            <select id="male2" name="male_2">
+                {% for participant in participants %}
+                    {% if participant.sex == 1 %}
+                        <option value="{{ participant.ID }}">{{ participant.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <label for="male3">Male 3:</label>
+            <select id="male3" name="male_3">
+                {% for participant in participants %}
+                    {% if participant.sex == 1 %}
+                        <option value="{{ participant.ID }}">{{ participant.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </fieldset>
+        <fieldset>
+            <legend>Female Participants</legend>
+            <label for="female1">Female 1:</label>
+            <select id="female1" name="female_1">
+                {% for participant in participants %}
+                    {% if participant.sex == 0 %}
+                        <option value="{{ participant.ID }}">{{ participant.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <label for="female2">Female 2:</label>
+            <select id="female2" name="female_2">
+                {% for participant in participants %}
+                    {% if participant.sex == 0 %}
+                        <option value="{{ participant.ID }}">{{ participant.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <label for="female3">Female 3:</label>
+            <select id="female3" name="female_3">
+                {% for participant in participants %}
+                    {% if participant.sex == 0 %}
+                        <option value="{{ participant.ID }}">{{ participant.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </fieldset>
+        <fieldset>
+            <legend>Captains</legend>
+            <label for="mc">Male Captain:</label>
+            <select id="mc" name="male_capitan">
+                {% for participant in participants %}
+                    {% if participant.sex == 1 and participant.capitan == 1 %}
+                        <option value="{{ participant.ID }}">{{ participant.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <label for="fc">Female Captain:</label>
+            <select id="fc" name="female_capitan">
+                {% for participant in participants %}
+                    {% if participant.sex == 0 and participant.capitan == 1 %}
+                        <option value="{{ participant.ID }}">{{ participant.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </fieldset>
         <input type="submit" value="Submit">
     </form>
     <div id="result"></div>

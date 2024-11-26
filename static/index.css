@@ -1,0 +1,35 @@
+body {
+    background: rgb(250, 171, 206);
+    background: linear-gradient(90deg, rgba(250, 171, 206, 1) 0%, rgba(162, 208, 252, 1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dropdown {
+    margin: 10px;
+}
+
+fieldset {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+legend {
+    text-align: center;
+}
+
+label, select {
+    display: block;
+    margin: 5px 0;
+    text-align: center;
+}
